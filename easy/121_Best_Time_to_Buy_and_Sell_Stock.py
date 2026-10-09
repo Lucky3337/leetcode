@@ -2,13 +2,15 @@ from typing import List
 
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:
-        max_profit = 0
-        for index, price in enumerate(prices):
-            start_index = index + 1
-            for price_next_day in prices[start_index:]:
-                profit = price_next_day - price
-                if profit > max_profit:
-                    max_profit = profit
+        min_price = float('inf')   # минимальная цена, встреченная до текущего дня
+        max_profit = 0             # лучшая прибыль
+
+        for price in prices:
+            if price < min_price:
+                min_price = price                  # нашли цену дешевле — обновляем
+            elif price - min_price > max_profit:
+                max_profit = price - min_price     # продаём сегодня, если выгодно
+
         return max_profit
 
 
